@@ -57,8 +57,11 @@ type Field struct {
 	DisplayLocationInDecimal *struct {
 		Text string `xml:",chardata"`
 	} `xml:"displayLocationInDecimal"`
-	ExternalId *BooleanText `xml:"externalId"`
-	Formula    *struct {
+	ExternalId         *BooleanText `xml:"externalId"`
+	FieldManageability *struct {
+		Text string `xml:",chardata"`
+	} `xml:"fieldManageability"`
+	Formula *struct {
 		Text string `xml:",innerxml"`
 	} `xml:"formula"`
 	FormulaTreatBlanksAs *struct {
@@ -132,9 +135,6 @@ type Field struct {
 	ReparentableMasterDetail *struct {
 		Text string `xml:",chardata"`
 	} `xml:"reparentableMasterDetail"`
-	FieldManageability *struct {
-		Text string `xml:",chardata"`
-	} `xml:"fieldManageability"`
 	MetadataRelationshipControllingField *struct {
 		Text string `xml:",chardata"`
 	} `xml:"metadataRelationshipControllingField"`
@@ -270,7 +270,7 @@ type CustomObject struct {
 	AllowInChatterGroups *struct {
 		Text string `xml:",chardata"`
 	} `xml:"allowInChatterGroups"`
-	CompactLayoutAssignment struct {
+	CompactLayoutAssignment *struct {
 		Text string `xml:",chardata"`
 	} `xml:"compactLayoutAssignment"`
 	CompactLayouts []struct {
@@ -302,10 +302,10 @@ type CustomObject struct {
 	EnableEnhancedLookup *struct {
 		Text string `xml:",chardata"`
 	} `xml:"enableEnhancedLookup"`
-	EnableFeeds struct {
+	EnableFeeds *struct {
 		Text string `xml:",chardata"`
 	} `xml:"enableFeeds"`
-	EnableHistory struct {
+	EnableHistory *struct {
 		Text string `xml:",chardata"`
 	} `xml:"enableHistory"`
 	EnableLicensing *struct {
@@ -403,7 +403,7 @@ type CustomObject struct {
 		Text string `xml:",chardata"`
 	} `xml:"recordTypeTrackHistory"`
 	RecordTypes   []RecordType `xml:"recordTypes"`
-	SearchLayouts struct {
+	SearchLayouts *struct {
 		CustomTabListAdditionalFields []struct {
 			Text string `xml:",chardata"`
 		} `xml:"customTabListAdditionalFields"`
@@ -426,7 +426,7 @@ type CustomObject struct {
 			Text string `xml:",chardata"`
 		} `xml:"searchResultsAdditionalFields"`
 	} `xml:"searchLayouts"`
-	SharingModel struct {
+	SharingModel *struct {
 		Text string `xml:",chardata"`
 	} `xml:"sharingModel"`
 	ValidationRules []Rule `xml:"validationRules"`
