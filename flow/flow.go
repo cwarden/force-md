@@ -147,16 +147,12 @@ type RecordLookup struct {
 	} `xml:"connector"`
 	FilterLogic string `xml:"filterLogic"`
 	Filters     []struct {
-		Field struct {
-			Text string `xml:",chardata"`
-		} `xml:"field"`
+		Field    string `xml:"field"`
 		Operator string `xml:"operator"`
 		Value    Value  `xml:"value"`
 	} `xml:"filters"`
-	GetFirstRecordOnly BooleanText `xml:"getFirstRecordOnly"`
-	Object             struct {
-		Text string `xml:",chardata"`
-	} `xml:"object"`
+	GetFirstRecordOnly       BooleanText `xml:"getFirstRecordOnly"`
+	Object                   string      `xml:"object"`
 	StoreOutputAutomatically struct {
 		Text string `xml:",chardata"`
 	} `xml:"storeOutputAutomatically"`
@@ -221,10 +217,8 @@ type RecordDelete struct {
 }
 
 type Field struct {
-	Name          string `xml:"name"`
-	ExtensionName struct {
-		Text string `xml:",chardata"`
-	} `xml:"extensionName"`
+	Name            string  `xml:"name"`
+	ExtensionName   string  `xml:"extensionName"`
 	FieldType       string  `xml:"fieldType"`
 	Fields          []Field `xml:"fields"`
 	InputParameters []struct {
