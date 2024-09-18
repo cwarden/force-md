@@ -74,15 +74,7 @@ type Rule struct {
 	Conditions     []struct {
 		LeftValueReference string `xml:"leftValueReference"`
 		Operator           string `xml:"operator"`
-		RightValue         struct {
-			BooleanValue BooleanText `xml:"booleanValue"`
-			StringValue  struct {
-				Text string `xml:",chardata"`
-			} `xml:"stringValue"`
-			ElementReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"elementReference"`
-		} `xml:"rightValue"`
+		RightValue         Value  `xml:"rightValue"`
 	} `xml:"conditions"`
 	Connector struct {
 		TargetReference ElementName `xml:"targetReference"`
@@ -125,9 +117,7 @@ type Value struct {
 	StringValue struct {
 		Text string `xml:",chardata"`
 	} `xml:"stringValue"`
-	BooleanValue struct {
-		Text string `xml:",chardata"`
-	} `xml:"booleanValue"`
+	BooleanValue *BooleanText `xml:"booleanValue"`
 }
 
 type RecordLookup struct {
@@ -347,6 +337,36 @@ type Screen struct {
 	} `xml:"pausedText"`
 }
 
+type Variable struct {
+	Description struct {
+		Text string `xml:",chardata"`
+	} `xml:"description"`
+	Name         string `xml:"name"`
+	DataType     string `xml:"dataType"`
+	IsCollection struct {
+		Text string `xml:",chardata"`
+	} `xml:"isCollection"`
+	IsInput    BooleanText `xml:"isInput"`
+	IsOutput   BooleanText `xml:"isOutput"`
+	ObjectType struct {
+		Text string `xml:",chardata"`
+	} `xml:"objectType"`
+	Scale struct {
+		Text string `xml:",chardata"`
+	} `xml:"scale"`
+	Value struct {
+		StringValue struct {
+			Text string `xml:",chardata"`
+		} `xml:"stringValue"`
+		ElementReference struct {
+			Text string `xml:",chardata"`
+		} `xml:"elementReference"`
+		BooleanValue struct {
+			Text string `xml:",chardata"`
+		} `xml:"booleanValue"`
+	} `xml:"value"`
+}
+
 type Flow struct {
 	XMLName    xml.Name `xml:"Flow"`
 	Xmlns      string   `xml:"xmlns,attr"`
@@ -547,43 +567,7 @@ type Flow struct {
 			} `xml:"targetReference"`
 		} `xml:"faultConnector"`
 	} `xml:"recordUpdates"`
-	Variables []struct {
-		Description struct {
-			Text string `xml:",chardata"`
-		} `xml:"description"`
-		Name struct {
-			Text string `xml:",chardata"`
-		} `xml:"name"`
-		DataType struct {
-			Text string `xml:",chardata"`
-		} `xml:"dataType"`
-		IsCollection struct {
-			Text string `xml:",chardata"`
-		} `xml:"isCollection"`
-		IsInput struct {
-			Text string `xml:",chardata"`
-		} `xml:"isInput"`
-		IsOutput struct {
-			Text string `xml:",chardata"`
-		} `xml:"isOutput"`
-		ObjectType struct {
-			Text string `xml:",chardata"`
-		} `xml:"objectType"`
-		Scale struct {
-			Text string `xml:",chardata"`
-		} `xml:"scale"`
-		Value struct {
-			StringValue struct {
-				Text string `xml:",chardata"`
-			} `xml:"stringValue"`
-			ElementReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"elementReference"`
-			BooleanValue struct {
-				Text string `xml:",chardata"`
-			} `xml:"booleanValue"`
-		} `xml:"value"`
-	} `xml:"variables"`
+	Variables     []Variable     `xml:"variables"`
 	Decisions     []Decision     `xml:"decisions"`
 	Screens       []Screen       `xml:"screens"`
 	RecordLookups []RecordLookup `xml:"recordLookups"`
