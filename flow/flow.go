@@ -41,16 +41,12 @@ type Start struct {
 			} `xml:"dateTimeValue"`
 		} `xml:"value"`
 	} `xml:"filters"`
-	Object struct {
-		Text string `xml:",chardata"`
-	} `xml:"object"`
+	Object            string `xml:"object"`
 	RecordTriggerType struct {
 		Text string `xml:",chardata"`
 	} `xml:"recordTriggerType"`
-	TriggerType struct {
-		Text string `xml:",chardata"`
-	} `xml:"triggerType"`
-	Schedule struct {
+	TriggerType string `xml:"triggerType"`
+	Schedule    struct {
 		Frequency struct {
 			Text string `xml:",chardata"`
 		} `xml:"frequency"`
@@ -61,6 +57,12 @@ type Start struct {
 			Text string `xml:",chardata"`
 		} `xml:"startTime"`
 	} `xml:"schedule"`
+	ScheduledPaths []struct {
+		Connector struct {
+			TargetReference ElementName `xml:"targetReference"`
+		} `xml:"connector"`
+		PathType string `xml:"pathType"`
+	} `xml:"scheduledPaths"`
 	DoesRequireRecordChangedToMeetCriteria struct {
 		Text string `xml:",chardata"`
 	} `xml:"doesRequireRecordChangedToMeetCriteria"`
@@ -147,10 +149,8 @@ type RecordLookup struct {
 		Text string `xml:",chardata"`
 	} `xml:"storeOutputAutomatically"`
 	FaultConnector struct {
-		TargetReference struct {
-			Text string `xml:",chardata"`
-		} `xml:"targetReference"`
-		IsGoTo struct {
+		TargetReference ElementName `xml:"targetReference"`
+		IsGoTo          struct {
 			Text string `xml:",chardata"`
 		} `xml:"isGoTo"`
 	} `xml:"faultConnector"`
@@ -197,9 +197,7 @@ type RecordDelete struct {
 		IsGoTo struct {
 			Text string `xml:",chardata"`
 		} `xml:"isGoTo"`
-		TargetReference struct {
-			Text string `xml:",chardata"`
-		} `xml:"targetReference"`
+		TargetReference ElementName `xml:"targetReference"`
 	} `xml:"faultConnector"`
 	InputReference struct {
 		Text string `xml:",chardata"`
@@ -367,6 +365,33 @@ type Variable struct {
 	} `xml:"value"`
 }
 
+type Assignment struct {
+	Name  ElementName `xml:"name"`
+	Label struct {
+		Text string `xml:",chardata"`
+	} `xml:"label"`
+	LocationX struct {
+		Text string `xml:",chardata"`
+	} `xml:"locationX"`
+	LocationY struct {
+		Text string `xml:",chardata"`
+	} `xml:"locationY"`
+	AssignmentItems []struct {
+		AssignToReference string `xml:"assignToReference"`
+		Operator          string `xml:"operator"`
+		Value             Value  `xml:"value"`
+	} `xml:"assignmentItems"`
+	Connector struct {
+		TargetReference ElementName `xml:"targetReference"`
+		IsGoTo          struct {
+			Text string `xml:",chardata"`
+		} `xml:"isGoTo"`
+	} `xml:"connector"`
+	Description struct {
+		Text string `xml:",chardata"`
+	} `xml:"description"`
+}
+
 type Flow struct {
 	XMLName    xml.Name `xml:"Flow"`
 	Xmlns      string   `xml:"xmlns,attr"`
@@ -444,9 +469,7 @@ type Flow struct {
 			} `xml:"value"`
 		} `xml:"inputAssignments"`
 		Connector struct {
-			TargetReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"targetReference"`
+			TargetReference ElementName `xml:"targetReference"`
 		} `xml:"connector"`
 		OutputAssignments []struct {
 			AssignToReference struct {
@@ -483,14 +506,10 @@ type Flow struct {
 			Text string `xml:",chardata"`
 		} `xml:"iterationOrder"`
 		NextValueConnector struct {
-			TargetReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"targetReference"`
+			TargetReference ElementName `xml:"targetReference"`
 		} `xml:"nextValueConnector"`
 		NoMoreValuesConnector struct {
-			TargetReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"targetReference"`
+			TargetReference ElementName `xml:"targetReference"`
 		} `xml:"noMoreValuesConnector"`
 	} `xml:"loops"`
 	RecordUpdates []struct {
@@ -510,9 +529,7 @@ type Flow struct {
 			Text string `xml:",chardata"`
 		} `xml:"locationY"`
 		Connector struct {
-			TargetReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"targetReference"`
+			TargetReference ElementName `xml:"targetReference"`
 		} `xml:"connector"`
 		FilterLogic struct {
 			Text string `xml:",chardata"`
@@ -562,60 +579,15 @@ type Flow struct {
 			IsGoTo struct {
 				Text string `xml:",chardata"`
 			} `xml:"isGoTo"`
-			TargetReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"targetReference"`
+			TargetReference ElementName `xml:"targetReference"`
 		} `xml:"faultConnector"`
 	} `xml:"recordUpdates"`
 	Variables     []Variable     `xml:"variables"`
 	Decisions     []Decision     `xml:"decisions"`
 	Screens       []Screen       `xml:"screens"`
 	RecordLookups []RecordLookup `xml:"recordLookups"`
-	Assignments   []struct {
-		Name struct {
-			Text string `xml:",chardata"`
-		} `xml:"name"`
-		Label struct {
-			Text string `xml:",chardata"`
-		} `xml:"label"`
-		LocationX struct {
-			Text string `xml:",chardata"`
-		} `xml:"locationX"`
-		LocationY struct {
-			Text string `xml:",chardata"`
-		} `xml:"locationY"`
-		AssignmentItems []struct {
-			AssignToReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"assignToReference"`
-			Operator struct {
-				Text string `xml:",chardata"`
-			} `xml:"operator"`
-			Value struct {
-				ElementReference struct {
-					Text string `xml:",chardata"`
-				} `xml:"elementReference"`
-				StringValue struct {
-					Text string `xml:",chardata"`
-				} `xml:"stringValue"`
-				BooleanValue struct {
-					Text string `xml:",chardata"`
-				} `xml:"booleanValue"`
-			} `xml:"value"`
-		} `xml:"assignmentItems"`
-		Connector struct {
-			TargetReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"targetReference"`
-			IsGoTo struct {
-				Text string `xml:",chardata"`
-			} `xml:"isGoTo"`
-		} `xml:"connector"`
-		Description struct {
-			Text string `xml:",chardata"`
-		} `xml:"description"`
-	} `xml:"assignments"`
-	Constants struct {
+	Assignments   []Assignment   `xml:"assignments"`
+	Constants     struct {
 		Name struct {
 			Text string `xml:",chardata"`
 		} `xml:"name"`
@@ -706,17 +678,13 @@ type Flow struct {
 			Text string `xml:",chardata"`
 		} `xml:"locationY"`
 		Connector struct {
-			TargetReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"targetReference"`
+			TargetReference ElementName `xml:"targetReference"`
 		} `xml:"connector"`
 		FaultConnector struct {
 			IsGoTo struct {
 				Text string `xml:",chardata"`
 			} `xml:"isGoTo"`
-			TargetReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"targetReference"`
+			TargetReference ElementName `xml:"targetReference"`
 		} `xml:"faultConnector"`
 		InputReference struct {
 			Text string `xml:",chardata"`
@@ -786,14 +754,10 @@ type Flow struct {
 			Text string `xml:",chardata"`
 		} `xml:"actionType"`
 		Connector struct {
-			TargetReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"targetReference"`
+			TargetReference ElementName `xml:"targetReference"`
 		} `xml:"connector"`
 		FaultConnector struct {
-			TargetReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"targetReference"`
+			TargetReference ElementName `xml:"targetReference"`
 		} `xml:"faultConnector"`
 		FlowTransactionModel struct {
 			Text string `xml:",chardata"`
@@ -861,9 +825,7 @@ type Flow struct {
 			Text string `xml:",chardata"`
 		} `xml:"locationY"`
 		Connector struct {
-			TargetReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"targetReference"`
+			TargetReference ElementName `xml:"targetReference"`
 		} `xml:"connector"`
 	} `xml:"recordRollbacks"`
 	Waits struct {
@@ -890,9 +852,7 @@ type Flow struct {
 				Text string `xml:",chardata"`
 			} `xml:"conditionLogic"`
 			Connector struct {
-				TargetReference struct {
-					Text string `xml:",chardata"`
-				} `xml:"targetReference"`
+				TargetReference ElementName `xml:"targetReference"`
 			} `xml:"connector"`
 			Label struct {
 				Text string `xml:",chardata"`
@@ -947,9 +907,7 @@ type Flow struct {
 			} `xml:"rightValue"`
 		} `xml:"conditions"`
 		Connector struct {
-			TargetReference struct {
-				Text string `xml:",chardata"`
-			} `xml:"targetReference"`
+			TargetReference ElementName `xml:"targetReference"`
 		} `xml:"connector"`
 	} `xml:"collectionProcessors"`
 }
