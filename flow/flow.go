@@ -113,13 +113,26 @@ type Decision struct {
 }
 
 type Value struct {
-	ElementReference struct {
+	ElementReference *struct {
 		Text string `xml:",chardata"`
 	} `xml:"elementReference"`
-	StringValue struct {
+	StringValue *struct {
 		Text string `xml:",chardata"`
 	} `xml:"stringValue"`
 	BooleanValue *BooleanText `xml:"booleanValue"`
+}
+
+func (v Value) String() string {
+	if v.ElementReference != nil {
+		return v.ElementReference.Text
+	}
+	if v.StringValue != nil {
+		return v.StringValue.Text
+	}
+	if v.BooleanValue != nil {
+		return v.BooleanValue.String()
+	}
+	return ""
 }
 
 type RecordLookup struct {
@@ -393,6 +406,7 @@ type Assignment struct {
 }
 
 type Flow struct {
+	internal.MetadataInfo
 	XMLName    xml.Name `xml:"Flow"`
 	Xmlns      string   `xml:"xmlns,attr"`
 	Xsi        string   `xml:"xsi,attr"`
@@ -912,7 +926,9 @@ type Flow struct {
 	} `xml:"collectionProcessors"`
 }
 
-func (p *Flow) MetaCheck() {}
+func (c *Flow) SetMetadata(m internal.MetadataInfo) {
+	c.MetadataInfo = m
+}
 
 func Open(path string) (*Flow, error) {
 	p := &Flow{}
