@@ -119,6 +119,9 @@ type Value struct {
 	StringValue *struct {
 		Text string `xml:",chardata"`
 	} `xml:"stringValue"`
+	NumberValue *struct {
+		Text string `xml:",chardata"`
+	} `xml:"numberValue"`
 	BooleanValue *BooleanText `xml:"booleanValue"`
 }
 
@@ -158,10 +161,8 @@ type RecordLookup struct {
 	} `xml:"filters"`
 	GetFirstRecordOnly       BooleanText `xml:"getFirstRecordOnly"`
 	Object                   string      `xml:"object"`
-	StoreOutputAutomatically struct {
-		Text string `xml:",chardata"`
-	} `xml:"storeOutputAutomatically"`
-	FaultConnector struct {
+	StoreOutputAutomatically BooleanText `xml:"storeOutputAutomatically"`
+	FaultConnector           struct {
 		TargetReference ElementName `xml:"targetReference"`
 		IsGoTo          struct {
 			Text string `xml:",chardata"`
